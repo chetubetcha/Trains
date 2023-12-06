@@ -1,0 +1,142 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/TrackSwitch.gd" type="Script" id=4]
+[ext_resource path="res://Demo/Assets/switch_right.png" type="Texture" id=5]
+[ext_resource path="res://Demo/Assets/arrow.png" type="Texture" id=6]
+[ext_resource path="res://Demo/Assets/switch_left.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/Track.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Curve2D" id=11]
+resource_local_to_scene = true
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 0 )
+}
+
+[sub_resource type="ArrayMesh" id=7]
+surfaces/0 = {
+"aabb": AABB( -1.5, -12.5, 0, 3.00001, 25, 0 ),
+"array_data": PoolByteArray( 0, 0, 192, 63, 0, 0, 72, 65, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 192, 191, 0, 0, 72, 65, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 192, 191, 0, 0, 72, 193, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 192, 63, 0, 0, 72, 193, 0, 0, 128, 63, 0, 0, 0, 0 ),
+"array_index_data": PoolByteArray( 3, 0, 0, 0, 1, 0, 1, 0, 2, 0, 3, 0 ),
+"blend_shape_data": [  ],
+"format": 262417,
+"index_count": 6,
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 4
+}
+
+[sub_resource type="MultiMesh" id=12]
+resource_local_to_scene = true
+instance_count = 6
+mesh = SubResource( 7 )
+transform_2d_array = PoolVector2Array( 1, 0, 0, 1, 4.99789, 0, 1, 0, 0, 1, 15.0021, 0, 1, 0, 0, 1, 25.0006, 0, 1, 0, 0, 1, 35.0115, 0, 1, 0, 0, 1, 45.003, 0, 1, 0, 0, 1, 55.0075, 0 )
+
+[sub_resource type="Curve2D" id=13]
+resource_local_to_scene = true
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, -23.902, -16.0644, 23.902, 16.0644, 64, 16 )
+}
+
+[sub_resource type="MultiMesh" id=14]
+resource_local_to_scene = true
+instance_count = 7
+mesh = SubResource( 7 )
+transform_2d_array = PoolVector2Array( 0.997947, 0.0640496, -0.0640496, 0.997947, 4.99855, 0.151877, 0.992838, 0.119466, -0.119466, 0.992838, 14.9734, 0.932876, 0.984107, 0.177575, -0.177575, 0.984107, 24.87, 2.26685, 0.96946, 0.245249, -0.245249, 0.96946, 34.6843, 4.20508, 0.944619, 0.32817, -0.32817, 0.944619, 44.3251, 6.85303, 0.901062, 0.433689, -0.433689, 0.901062, 53.6716, 10.3796, 0.838563, 0.544804, -0.544804, 0.838563, 62.5197, 15.0383 )
+
+[sub_resource type="Theme" id=10]
+CheckButton/icons/off = ExtResource( 7 )
+CheckButton/icons/on = ExtResource( 5 )
+CheckButton/styles/normal = null
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TrackSwitch" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="LeftTrack" parent="TrackSwitch" instance=ExtResource( 9 )]
+curve = SubResource( 11 )
+
+[node name="MultiMeshInstance2D" parent="TrackSwitch/LeftTrack" index="1"]
+multimesh = SubResource( 12 )
+
+[node name="TrackJunction" parent="TrackSwitch/LeftTrack/HeadPoint" index="0"]
+parent = NodePath("../../..")
+
+[node name="TailPoint" parent="TrackSwitch/LeftTrack" index="3"]
+position = Vector2( 84, 0 )
+offset = 64.9952
+
+[node name="TrackJunction" parent="TrackSwitch/LeftTrack/TailPoint" index="0"]
+parent = NodePath("../../..")
+side = "left"
+
+[node name="Line2D" parent="TrackSwitch/LeftTrack" index="4"]
+points = PoolVector2Array( 0, 0, 4.99789, 0, 10.0031, 0, 15.0021, 0, 20.0015, 0, 25.0006, 0, 30.0028, 0, 35.0115, 0, 40.0041, 0, 45.003, 0, 50.002, 0, 55.0075, 0, 60.0048, 0, 65, 0 )
+
+[node name="Pointer" type="PathFollow2D" parent="TrackSwitch/LeftTrack"]
+visible = false
+position = Vector2( 65, 0 )
+z_index = 2
+offset = 66.7697
+
+[node name="Sprite" type="Sprite" parent="TrackSwitch/LeftTrack/Pointer"]
+position = Vector2( -55.3343, 5.54886 )
+texture = ExtResource( 6 )
+
+[node name="RightTrack" parent="TrackSwitch" instance=ExtResource( 9 )]
+z_index = 1
+curve = SubResource( 13 )
+
+[node name="MultiMeshInstance2D" parent="TrackSwitch/RightTrack" index="1"]
+multimesh = SubResource( 14 )
+
+[node name="HeadPoint" parent="TrackSwitch/RightTrack" index="2"]
+rotation = 0.0276211
+
+[node name="TrackJunction" parent="TrackSwitch/RightTrack/HeadPoint" index="0"]
+parent = NodePath("../../..")
+enabled = false
+
+[node name="TailPoint" parent="TrackSwitch/RightTrack" index="3"]
+position = Vector2( 64, 16 )
+rotation = 0.553597
+offset = 66.7652
+
+[node name="TrackJunction" parent="TrackSwitch/RightTrack/TailPoint" index="0"]
+parent = NodePath("../../..")
+side = "right"
+
+[node name="Line2D" parent="TrackSwitch/RightTrack" index="4"]
+points = PoolVector2Array( 0, 0, 4.99855, 0.151877, 9.99228, 0.472381, 14.9734, 0.932876, 19.9316, 1.52949, 24.87, 2.26685, 29.793, 3.15517, 34.6843, 4.20508, 39.539, 5.43321, 44.3251, 6.85303, 49.0416, 8.49161, 53.6716, 10.3796, 58.1779, 12.5485, 62.5197, 15.0383, 64, 16 )
+
+[node name="Pointer" type="PathFollow2D" parent="TrackSwitch/RightTrack"]
+position = Vector2( 63.9966, 15.9978 )
+rotation = 0.577729
+z_index = 2
+offset = 66.7572
+
+[node name="Sprite" type="Sprite" parent="TrackSwitch/RightTrack/Pointer"]
+position = Vector2( -43.5135, 19.094 )
+texture = ExtResource( 6 )
+
+[node name="Button" type="CheckButton" parent="TrackSwitch"]
+margin_left = -32.0
+margin_top = -72.0
+margin_right = 44.0
+margin_bottom = -24.0
+rect_rotation = 90.0
+rect_pivot_offset = Vector2( 38, 24 )
+focus_mode = 0
+theme = SubResource( 10 )
+shortcut_in_tooltip = false
+pressed = true
+keep_pressed_outside = true
+
+[connection signal="wheel_at_head" from="TrackSwitch/LeftTrack" to="TrackSwitch" method="_on_LeftTrack_wheel_at_head"]
+[connection signal="wheel_at_tail" from="TrackSwitch/LeftTrack" to="TrackSwitch" method="_on_LeftTrack_wheel_at_tail"]
+[connection signal="wheel_at_head" from="TrackSwitch/RightTrack" to="TrackSwitch" method="_on_RightTrack_wheel_at_head"]
+[connection signal="wheel_at_tail" from="TrackSwitch/RightTrack" to="TrackSwitch" method="_on_RightTrack_wheel_at_tail"]
+[connection signal="pressed" from="TrackSwitch/Button" to="TrackSwitch" method="_on_Button_pressed"]
+
+[editable path="TrackSwitch/LeftTrack"]
+[editable path="TrackSwitch/RightTrack"]

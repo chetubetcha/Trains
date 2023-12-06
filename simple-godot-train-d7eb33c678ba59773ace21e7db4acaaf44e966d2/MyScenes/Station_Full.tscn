@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://MyScenes/Station.gd" type="Script" id=1]
+[ext_resource path="res://Demo/Assets/station.png" type="Texture" id=2]
+[ext_resource path="res://GameLevels/godCam.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=44]
+
+[node name="Node2D" type="Node2D"]
+position = Vector2( 100, 100 )
+
+[node name="Station" type="Node2D" parent="."]
+script = ExtResource( 1 )
+available = [ 1, 2 ]
+availableAmounts = [ 10, 80 ]
+demanded = [ 10, 11, 7 ]
+demandedAmounts = [ 100, 10, 50 ]
+
+[node name="TextureRect" type="TextureRect" parent="Station"]
+margin_left = -128.0
+margin_top = -32.0
+margin_right = 128.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 128, 32 )
+texture = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="Station" groups=["StationArea"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Station/Area2D"]
+position = Vector2( 0, 48 )
+scale = Vector2( 12.0082, 1.47814 )
+shape = SubResource( 44 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+script = ExtResource( 3 )
